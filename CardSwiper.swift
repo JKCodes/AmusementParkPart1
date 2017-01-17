@@ -57,11 +57,10 @@ extension CardSwiper {
         
     }
     
-    mutating func swipe(_ pass: Pass, for rideAccess: RideAccess) -> String {
+    mutating func swipe(_ pass: Pass, for rideAccess: RideAccess, testAccess: Bool = false) -> String {
         
         var access = false
         var snippet = ""
-        var doubleSwipeFlag = true
         
         processBirthday(for: pass)
         
@@ -71,13 +70,11 @@ extension CardSwiper {
             snippet = "to all rides"
         case .skipLine(let flag):
             access = flag
-            if !access {
-                doubleSwipeFlag = false
-            }
             snippet = "to skip all lines"
         }
 
-        if doubleSwipeFlag {
+        // testAccess is used to note if the originating task is solely to check if one has access
+        if !testAccess {
             do {
                 let _ = try minimumTimeHasPassed(for: pass.passId)
             } catch Errors.DoubleSwipeError(message: let message) {
@@ -113,32 +110,47 @@ extension CardSwiper {
         return true
     }
     
+    
     func processBirthday(for pass: Pass) {
         let birthday = extractBirthday(for: pass)
         var isBirthday: Bool = false
+        
+        // Currently, birthday message is displayed for all swipe transactions,
+        // but depending on the requirement for project 5, it could easily be changed
+        // in this function.
+        
         
         if let date = birthday {
             isBirthday = checkBirthday(for: date)
         }
         
         if isBirthday {
-            print("Happy Birthday!!")
+            if let name = pass.entrantInformation[PersonalData.firstName.rawValue] {
+                print("Happy Birthday, \(name)!")
+            } else {
+                print("Happy Birthday!")
+            }
+            
         }
     }
     
     private func extractBirthday(for pass: Pass) -> SimpleDate? {
         // Extract birthday from information
-        guard let stringYear = pass.entrantInformation["year"],
-            let stringMonth = pass.entrantInformation["month"],
-            let stringDay = pass.entrantInformation["day"] else {
+        var complexDate = Date()
+        guard let dob = pass.entrantInformation[PersonalData.dob.rawValue] else {
             return nil
         }
         
-        guard let year = Int(stringYear), let month = Int(stringMonth), let day = Int(stringDay) else {
-            return nil
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = DateFormat.dateFormat.rawValue
+       
+        if let tempDate = dateFormatter.date(from: dob) {
+            complexDate = tempDate
         }
         
-        return SimpleDate(year: Int(year), month: Int(month), day: Int(day))
+        return SimpleDate(year: NSCalendar.current.component(.year, from: complexDate),
+                          month: NSCalendar.current.component(.month, from: complexDate),
+                          day: NSCalendar.current.component(.day, from: complexDate))
     }
     
     

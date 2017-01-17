@@ -21,7 +21,7 @@ extension Manager {
         // using switch here even though there are only one possible choice
         // in case more options are added in future
         switch self {
-        case .manager: return [.amusement, .kitchen, .rideControl, .office]
+        case .manager: return [.amusement, .kitchen, .rideControl, .maintenance, .office]
         }
     }
     

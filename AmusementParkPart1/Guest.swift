@@ -15,7 +15,7 @@ let vipMerchandiseDiscount = 20
 enum Guest: Entrant, AgeVerifiable {
     case classic
     case vip
-    case child(birthday: SimpleDate)
+    case child
 }
 
 extension Guest {

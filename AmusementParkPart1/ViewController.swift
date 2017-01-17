@@ -21,90 +21,103 @@ class ViewController: UIViewController {
     var cardSwiper = CardSwiper()
     var timer = Timer()
     
-    // Below are the plug data. I know I can filter/map these values, 
-    // BUT that's covered in Unit 5, so I decided to just do the below for the Unit 4's project
-    
-    let data = ["firstName": "Morgan",
-                "lastName": "Shearer",
-                "streetAddress": "123 Abc Street",
-                "city": "Abington",
-                "state": "AB",
-                "zipCode": "12345",
-                "ssn": "123456789",
-                "dob": "12-23-1999",
-                "managementTier": ManagerTier.generalMgr.rawValue]
-    let missingFirstNameData = ["lastName": "Shearer",
-                            "streetAddress": "123 Abc Street",
-                            "city": "Abington",
-                            "state": "AB",
-                            "zipCode": "12345",
-                            "ssn": "123456789",
-                            "dob": "12-23-1999",
-                            "managementTier": ManagerTier.generalMgr.rawValue]
-    let missingLastNameData = ["firstName": "Morgan",
-                                "streetAddress": "123 Abc Street",
-                                "city": "Abington",
-                                "state": "AB",
-                                "zipCode": "12345",
-                                "ssn": "123456789",
-                                "dob": "12-23-1999",
-                                "managementTier": ManagerTier.generalMgr.rawValue]
-    let missingStreetAddressData = ["firstName": "Morgan",
-                                "lastName": "Shearer",
-                                "city": "Abington",
-                                "state": "AB",
-                                "zipCode": "12345",
-                                "ssn": "123456789",
-                                "dob": "12-23-1999",
-                                "managementTier": ManagerTier.generalMgr.rawValue]
-    let missingCityData = ["firstName": "Morgan",
-                                "lastName": "Shearer",
-                                "streetAddress": "123 Abc Street",
-                                "state": "AB",
-                                "zipCode": "12345",
-                                "ssn": "123456789",
-                                "dob": "12-23-1999",
-                                "managementTier": ManagerTier.generalMgr.rawValue]
-    let missingStateData = ["firstName": "Morgan",
-                                "lastName": "Shearer",
-                                "streetAddress": "123 Abc Street",
-                                "city": "Abington",
-                                "zipCode": "12345",
-                                "ssn": "123456789",
-                                "dob": "12-23-1999",
-                                "managementTier": ManagerTier.generalMgr.rawValue]
-    let missingZipCodeData = ["firstName": "Morgan",
-                                "lastName": "Shearer",
-                                "streetAddress": "123 Abc Street",
-                                "city": "Abington",
-                                "state": "AB",
-                                "ssn": "123456789",
-                                "dob": "12-23-1999",
-                                "managementTier": ManagerTier.generalMgr.rawValue]
-    let missingSSNData = ["firstName": "Morgan",
-                                "lastName": "Shearer",
-                                "streetAddress": "123 Abc Street",
-                                "city": "Abington",
-                                "state": "AB",
-                                "zipCode": "12345",
-                                "dob": "12-23-1999",
-                                "managementTier": ManagerTier.generalMgr.rawValue]
-    let missingDOBData = ["firstName": "Morgan",
-                                "lastName": "Shearer",
-                                "streetAddress": "123 Abc Street",
-                                "city": "Abington",
-                                "state": "AB",
-                                "zipCode": "12345",
-                                "ssn": "123456789",
-                                "managementTier": ManagerTier.generalMgr.rawValue]
-    let missingManagementTierData = ["firstName": "Morgan",
-                                "lastName": "Shearer",
-                                "streetAddress": "123 Abc Street",
-                                "city": "Abington",
-                                "state": "AB",
-                                "zipCode": "12345",
-                                "ssn": "123456789",
-                                "dob": "12-23-1999"]
+    // Today variable is used to test birthday.
+    // The year is set to current year, but the year value is irrelevant for birthday message
+    let today = SimpleDate(year: NSCalendar.current.component(.year, from: Date()),
+                           month: NSCalendar.current.component(.month, from: Date()),
+                           day: NSCalendar.current.component(.day, from: Date()))
+
+    // Below are the requested hard-coded plug data
+    let data = [PersonalData.firstName.rawValue: "Morgan",
+                PersonalData.lastName.rawValue: "Shearer",
+                PersonalData.streetAddress.rawValue: "123 Abc Street",
+                PersonalData.city.rawValue: "Abington",
+                PersonalData.state.rawValue: "AB",
+                PersonalData.zipCode.rawValue: "12345",
+                PersonalData.ssn.rawValue: "123456789",
+                PersonalData.dob.rawValue: "12-23-1999",
+                PersonalData.managementTier.rawValue: ManagerTier.generalMgr.rawValue]
+    let badDateFormatdata = [PersonalData.firstName.rawValue: "Morgan",
+                PersonalData.lastName.rawValue: "Shearer",
+                PersonalData.streetAddress.rawValue: "123 Abc Street",
+                PersonalData.city.rawValue: "Abington",
+                PersonalData.state.rawValue: "AB",
+                PersonalData.zipCode.rawValue: "12345",
+                PersonalData.ssn.rawValue: "123456789",
+                PersonalData.dob.rawValue: "1999-12-23",
+                PersonalData.managementTier.rawValue: ManagerTier.shiftMgr.rawValue]
+    let missingFirstNameData = [PersonalData.lastName.rawValue: "Shearer",
+                            PersonalData.streetAddress.rawValue: "123 Abc Street",
+                            PersonalData.city.rawValue: "Abington",
+                            PersonalData.state.rawValue: "AB",
+                            PersonalData.zipCode.rawValue: "12345",
+                            PersonalData.ssn.rawValue: "123456789",
+                            PersonalData.dob.rawValue: "12-23-1999",
+                            PersonalData.managementTier.rawValue: ManagerTier.seniorMgr.rawValue]
+    let missingLastNameData = [PersonalData.firstName.rawValue: "Morgan",
+                                PersonalData.streetAddress.rawValue: "123 Abc Street",
+                                PersonalData.city.rawValue: "Abington",
+                                PersonalData.state.rawValue: "AB",
+                                PersonalData.zipCode.rawValue: "12345",
+                                PersonalData.ssn.rawValue: "123456789",
+                                PersonalData.dob.rawValue: "12-23-1999",
+                                PersonalData.managementTier.rawValue: ManagerTier.generalMgr.rawValue]
+    let missingStreetAddressData = [PersonalData.firstName.rawValue: "Morgan",
+                                PersonalData.lastName.rawValue: "Shearer",
+                                PersonalData.city.rawValue: "Abington",
+                                PersonalData.state.rawValue: "AB",
+                                PersonalData.zipCode.rawValue: "12345",
+                                PersonalData.ssn.rawValue: "123456789",
+                                PersonalData.dob.rawValue: "12-23-1999",
+                                PersonalData.managementTier.rawValue: ManagerTier.seniorMgr.rawValue]
+    let missingCityData = [PersonalData.firstName.rawValue: "Morgan",
+                                PersonalData.lastName.rawValue: "Shearer",
+                                PersonalData.streetAddress.rawValue: "123 Abc Street",
+                                PersonalData.state.rawValue: "AB",
+                                PersonalData.zipCode.rawValue: "12345",
+                                PersonalData.ssn.rawValue: "123456789",
+                                PersonalData.dob.rawValue: "12-23-1999",
+                                PersonalData.managementTier.rawValue: ManagerTier.shiftMgr.rawValue]
+    let missingStateData = [PersonalData.firstName.rawValue: "Morgan",
+                                PersonalData.lastName.rawValue: "Shearer",
+                                PersonalData.streetAddress.rawValue: "123 Abc Street",
+                                PersonalData.city.rawValue: "Abington",
+                                PersonalData.zipCode.rawValue: "12345",
+                                PersonalData.ssn.rawValue: "123456789",
+                                PersonalData.dob.rawValue: "12-23-1999",
+                                PersonalData.managementTier.rawValue: ManagerTier.generalMgr.rawValue]
+    let missingZipCodeData = [PersonalData.firstName.rawValue: "Morgan",
+                                PersonalData.lastName.rawValue: "Shearer",
+                                PersonalData.streetAddress.rawValue: "123 Abc Street",
+                                PersonalData.city.rawValue: "Abington",
+                                PersonalData.state.rawValue: "AB",
+                                PersonalData.ssn.rawValue: "123456789",
+                                PersonalData.dob.rawValue: "12-23-1999",
+                                PersonalData.managementTier.rawValue: ManagerTier.generalMgr.rawValue]
+    let missingSSNData = [PersonalData.firstName.rawValue: "Morgan",
+                                PersonalData.lastName.rawValue: "Shearer",
+                                PersonalData.streetAddress.rawValue: "123 Abc Street",
+                                PersonalData.city.rawValue: "Abington",
+                                PersonalData.state.rawValue: "AB",
+                                PersonalData.zipCode.rawValue: "12345",
+                                PersonalData.dob.rawValue: "12-23-1999",
+                                PersonalData.managementTier.rawValue: ManagerTier.seniorMgr.rawValue]
+    let missingDOBData = [PersonalData.firstName.rawValue: "Morgan",
+                                PersonalData.lastName.rawValue: "Shearer",
+                                PersonalData.streetAddress.rawValue: "123 Abc Street",
+                                PersonalData.city.rawValue: "Abington",
+                                PersonalData.state.rawValue: "AB",
+                                PersonalData.zipCode.rawValue: "12345",
+                                PersonalData.ssn.rawValue: "123456789",
+                                PersonalData.managementTier.rawValue: ManagerTier.shiftMgr.rawValue]
+    let missingManagementTierData = [PersonalData.firstName.rawValue: "Morgan",
+                                PersonalData.lastName.rawValue: "Shearer",
+                                PersonalData.streetAddress.rawValue: "123 Abc Street",
+                                PersonalData.city.rawValue: "Abington",
+                                PersonalData.state.rawValue: "AB",
+                                PersonalData.zipCode.rawValue: "12345",
+                                PersonalData.ssn.rawValue: "123456789",
+                                PersonalData.dob.rawValue: "12-23-1999"]
     
     // MARK: ViewDidLoad - I understand how this can be hard to find
     override func viewDidLoad() {
@@ -117,86 +130,41 @@ class ViewController: UIViewController {
     func testMain() {
         
         
-        classicGuestTest()
+        //classicGuestTest()
         //vipGuestTest()
-        
+        //childGuestTest()
+        //hourlyEmployeeFoodServicesTest()
+        //hourlyEmployeeRideServicesTest()
+        //hourlyEmployeeMaintenanceTest()
+        //managerTest()
         //doubleSwipeTest()
-        
-        
-        // MARK: Stubs for testing GuestTypes
-        
-        // MARK: Test Classic Guest  (comment out individual swipe tests to hear sounds for one test)
-        
-        //     let classicGuest = passGenerator.createPass(forEntrant: GuestType.classic)
-        //     print(cardReader.discountAccess(forPass: classicGuest)) // prints list of available discounts
-        //     print(cardReader.areaAccess(forPass: classicGuest)) // prints all areas accessible to pass
-        //     print(classicGuest.contactDetails) // how to access contact details (classic guest won't have any)
-        // test swipe feature
-        //     print(cardReader.swipeAccess(classicGuest, discountFor: .food(classicGuest.foodDiscount)))
-        //     print(cardReader.swipeAccess(classicGuest, discountFor: .merchandise(classicGuest.merchandiseDiscount)))
-        //     print(cardReader.swipeAccess(classicGuest, hasAccessTo: .amusement))  // does have access
-        //     print(cardReader.swipeAccess(classicGuest, hasAccessTo: .maintenance)) // doesn't have access
-        //     print(cardReader.swipeAccess(classicGuest, hasRideAccess: .allRides(classicGuest.allRideAccess)))
-        //     print(cardReader.swipeAccess(classicGuest, hasRideAccess: .skipsQueues(classicGuest.skipsQueues)))
-        
-        // MARK: Test VIP Guest
-        
-        //     let vipGuest = passGenerator.createPass(forEntrant: GuestType.VIP)
-        //     print(cardReader.discountAccess(forPass: vipGuest)) // prints list of available discounts
-        //     print(cardReader.areaAccess(forPass: vipGuest)) // prints all areas accessible to pass
-        //     print(vipGuest.contactDetails) // how to access contact details (classic guest won't have any)
-        //     // test swipe feature
-        //     print(cardReader.swipeAccess(vipGuest, discountFor: .food(vipGuest.foodDiscount)))
-        //     print(cardReader.swipeAccess(vipGuest, discountFor: .merchandise(vipGuest.merchandiseDiscount)))
-        //     print(cardReader.swipeAccess(vipGuest, hasAccessTo: .amusement))  // does have access
-        //     print(cardReader.swipeAccess(vipGuest, hasAccessTo: .maintenance)) // doesn't have access
-        //     print(cardReader.swipeAccess(vipGuest, hasRideAccess: .allRides(vipGuest.allRideAccess)))
-        //     print(cardReader.swipeAccess(vipGuest, hasRideAccess: .skipsQueues(vipGuest.skipsQueues)))
-        
-        // MARK: Test Validating BirthDates
-        
-        //    let badDateFormat = "12-25-2014"
-        //    let tooOld = "2009-10-07"
-        //    let badDatePass = passGenerator.createPass(forEntrant: GuestType.freeChild(birthdate: badDateFormat)) // should throw error for invalid date format  *********(for now defaults to classic pass, will convert to allow for re-entering info when UI implemented to handle incorrect format (An error message is still printed)
-        //    let tooOldPass = passGenerator.createPass(forEntrant: GuestType.freeChild(birthdate: tooOld)) // should throw fails age requirement error (message printed to console) pass will default to classic pass
-        //    print("Pass converted to: \(tooOldPass.type)")
-        
-        // MARK: Test Free Child Pass -- will trigger Happy Birthday
-        //     let birthDate = "2014-11-07" // Make sure date is current month, day to test Birthday message
-        //     let childGuest = passGenerator.createPass(forEntrant: GuestType.freeChild(birthdate: birthDate))
-        //     print(cardReader.discountAccess(forPass: childGuest)) // prints list of available discounts
-        //     print(cardReader.areaAccess(forPass: childGuest)) // prints all areas accessible to pass
-        //     print(childGuest.contactDetails) // how to access contact details (classic guest won't have any)
-        //      // test swipe feature
-        //     print(cardReader.swipeAccess(childGuest, discountFor: .food(childGuest.foodDiscount)))
-        //     print(cardReader.swipeAccess(childGuest, discountFor: .merchandise(childGuest.merchandiseDiscount)))
-        //     print(cardReader.swipeAccess(childGuest, hasAccessTo: .amusement))  // does have access
-        //     print(cardReader.swipeAccess(childGuest, hasAccessTo: .maintenance)) // doesn't have access
-        //     print(cardReader.swipeAccess(childGuest, hasRideAccess: .allRides(childGuest.allRideAccess)))
-        //     print(cardReader.swipeAccess(childGuest, hasRideAccess: .skipsQueues(childGuest.skipsQueues)))
-        
-        // MARK: Info for testing employee and manager contact information
-        
-        //    let correctInfo = ["firstName": "John", "lastName": "Doe", "streetAddress": "123 Wonder Road",
-        //                "city": "Somewhere Out there", "state": "FL", "zipCode": "90210"]
-        //    let contactInfo = ContactInformation(withDictionary: correctInfo)! // force unwrapping since I know it contains correct values
-        //
-        //    let incorrectInfo = ["firstName": "Kathy", "lastName": "Ebel"]
-        //    let failingInfo = ContactInformation(withDictionary: incorrectInfo) // cannot create contact info if dictionary doesn't have correct values
-        //    if let goodInfo = failingInfo {
-        //      let failingPass = passGenerator.createPass(forEntrant: HourlyEmployeeType.rideServices(goodInfo))
-        //      print(failingPass.contactDetails)
-        //    } else {
-        //        print("Info was bad, so pass not created")
-        //
-        //    }
+        dateFormatTest()
 
     }
     
+    /// Runs before any test is run
     func initialTestSetup() {
+        // Invalidates any running timers (for double swipe) and deletes all passes and resets the card swiper
+        
         timer.invalidate()
         passes.deleteAll()
         cardSwiper.reset()
+    }
+    
+    // MARK: Date Format test
+    func dateFormatTest() {
+        
+        initialTestSetup()
+        
+        // Wrong Date Format Test
+        var testData = data
+        testData[PersonalData.dob.rawValue] = "1999-11-23"
+        passes.create(for: Guest.classic, data: testData)
+        
+        // Completely Invalid Date
+        testData[PersonalData.dob.rawValue] = "dd234ijifejoa"
+        passes.create(for: Guest.classic, data: testData)
+        
     }
     
     
@@ -212,61 +180,239 @@ class ViewController: UIViewController {
         print(cardSwiper.swipe(currentPass, for: .office))
         
         // Tests Ride Access - Access to all rides (this should always pass) and skip lines
-        print(cardSwiper.swipe(currentPass, for: .allRides(currentPass.allRides)))
-        print(cardSwiper.swipe(currentPass, for: .skipLine(currentPass.skipAllowed)))
+        print(cardSwiper.swipe(currentPass, for: .allRides(currentPass.allRides), testAccess: true))
+        print(cardSwiper.swipe(currentPass, for: .skipLine(currentPass.skipAllowed), testAccess: true))
         
         // Tests Discount Access - Both food and merchandise discount test
         print(cardSwiper.swipe(currentPass, for: .food(currentPass.foodDiscount)))
         print(cardSwiper.swipe(currentPass, for: .merchandise(currentPass.merchandiseDiscount)))
     }
     
-    func requiredInfoTest(for currentPass: Pass) {
-
+    func ageTest(for currentPass: Pass) {
+        
+        // Note that onlly child guess paasses require age verification at the moment
+ 
+        // The below three cases: 4 years old, exactly 5 years old and 6 years old
+        // Rejects all riders up to 5 years old.  Yes, this means only one of the three below will pass (4 years old)
+        let fourYearsOld = SimpleDate(year: today.year - 4, month: today.month, day: today.day)
+        let fiveYearsOld = SimpleDate(year: today.year - 5, month: today.month, day: today.day)
+        let sixYearsOld = SimpleDate(year: today.year - 6, month: today.month, day: today.day)
+        
+        // Makes a copy of the full data defined well above
+        var tempData = data
+        
+        tempData[PersonalData.dob.rawValue] = fourYearsOld.toString()
+        passes.create(for: Guest.child, data: tempData)
+ 
+        tempData[PersonalData.dob.rawValue] = fiveYearsOld.toString()
+        passes.create(for: Guest.child, data: tempData)
+        
+        tempData[PersonalData.dob.rawValue] = sixYearsOld.toString()
+        passes.create(for: Guest.child, data: tempData)
+        
+    }
+    
+    // MARK: Required Info Test
+    func requiredInfoTest(for entrant: Entrant) {
+        // Creates the specified entrant passes with a specific missing field
+        // testMode toggles whether age check calculation will be performed on pass creation
+        // true = no age check => Useful when using hard plug data defined above
+        
+        print("\nStart of required data processing")
+        passes.create(for: entrant, data: missingFirstNameData, testMode: true)
+        passes.create(for: entrant, data: missingLastNameData, testMode: true)
+        passes.create(for: entrant, data: missingStreetAddressData, testMode: true)
+        passes.create(for: entrant, data: missingCityData, testMode: true)
+        passes.create(for: entrant, data: missingStateData, testMode: true)
+        passes.create(for: entrant, data: missingZipCodeData, testMode: true)
+        passes.create(for: entrant, data: missingSSNData, testMode: true)
+        passes.create(for: entrant, data: missingDOBData, testMode: true)
+        passes.create(for: entrant, data: missingManagementTierData, testMode: true)
+        print("End of required data processing\n")
     }
     
     // MARK: Classic Guest Test
     func classicGuestTest() {
+        
+        // Sets up test and creates a pass with all fields populated
+        // Note that the first pass CANNOT raise an errors due to incompleteness
         initialTestSetup()
+        passes.create(for: Guest.classic, data: data)
         
-        // Grabs the first pass - for this test, this is the ONLY pass
+        // Grabs the first pass
         let testPass = passes.getPass(atIndex: 0)
-
-        // Creates a classic guest with no personal data
-        // Omitted
-        passes.create(for: Guest.classic)
         
+        // For classic guests, no errors should be thrown
+        requiredInfoTest(for: Guest.classic)
+        
+        // Tests Access for various areas
         accessTest(for: testPass)
-        requiredInfoTest(for: testPass)
+        
+        // Birthday Test - Modifies dob of testPass
+        // Note: Birthday message is displayed when any of the swipe method is used
+        passes.updateEntrantInfo(testPass, key: PersonalData.dob.rawValue, with: today.toString())
+        print(cardSwiper.swipe(testPass, for: .amusement))
+        
+        // Birthday Test - Missing DOB
+        // This tests how the birthday message behaves if the dob does not exist
+        passes.removeEntrantInfo(testPass, key: PersonalData.dob.rawValue)
+        print(cardSwiper.swipe(testPass, for: .kitchen))
     }
     
     // MARK: VIP Guest Test
     func vipGuestTest() {
-        initialTestSetup()
 
-        // Grabs the first pass - for this test, this is the ONLY pass
+        // Sets up test and creates a pass with all fields populated
+        // Note that the first pass CANNOT raise an errors due to incompleteness
+        initialTestSetup()
+        passes.create(for: Guest.vip, data: data)
+        
+        // Grabs the first pass
         let testPass = passes.getPass(atIndex: 0)
         
-        // Creates a VIP guest with no personal data
-        // This will not raise any errors for this entrant type
-        passes.create(for: Guest.vip)
+        // For vip guests, no errors should be thrown
+        requiredInfoTest(for: Guest.vip)
         
+        // Tests Access for various areas
         accessTest(for: testPass)
-        requiredInfoTest(for: testPass)
+
+        // Birthday Test - Modifies dob of testPass
+        // Testing showing of birthday message for kitchen access
+        passes.updateEntrantInfo(testPass, key: PersonalData.dob.rawValue, with: today.toString())
+        print(cardSwiper.swipe(testPass, for: .rideControl))
+        
+        // Birthday Test - Missing DOB
+        // This tests how the birthday message behaves if the dob does not exist
+        passes.removeEntrantInfo(testPass, key: PersonalData.dob.rawValue)
+        print(cardSwiper.swipe(testPass, for: .maintenance))
     }
     
+
     // MARK: Free Child Guest Test
     func childGuestTest() {
-        initialTestSetup()
         
-        // Grabs the first pass - for this test, this is the ONLY pass
+        // Sets up test and creates a pass with all fields populated
+        // Note that the first pass CANNOT raise an errors due to incompleteness
+        initialTestSetup()
+        passes.create(for: Guest.child, data: data, testMode: true)
+        
+        // Grabs the first pass
         let testPass = passes.getPass(atIndex: 0)
         
-        // Creates a classic guest with no personal data
-        // This will not raise any errors for this entrant type
-        passes.create(for: Guest.child(birthday: <#T##SimpleDate#>))
+        // For child guests, a dob field must be present
+        requiredInfoTest(for: Guest.child)
         
+        // Tests Access for various area
         accessTest(for: testPass)
-        requiredInfoTest(for: testPass)
+
+        // Birthday Test - Modifies dob of testPass
+        passes.updateEntrantInfo(testPass, key: PersonalData.dob.rawValue, with: today.toString())
+        print(cardSwiper.swipe(testPass, for: .office))
+        
+        // Birthday Test - Missing DOB
+        // This tests how the birthday message behaves if the dob does not exist
+        // No Birthday message should be displayed
+        passes.removeEntrantInfo(testPass, key: PersonalData.dob.rawValue)
+        print(cardSwiper.swipe(testPass, for: .allRides(testPass.allRides)))
+        
+        // Age test is also necessary for child passes
+        ageTest(for: testPass)
+    }
+    
+    // MARK: Hourly Food Test
+    func hourlyEmployeeFoodServicesTest() {
+        
+        // Sets up test and creates a pass with all fields populated
+        // Note that the first pass CANNOT raise an errors due to incompleteness
+        initialTestSetup()
+        passes.create(for: HourlyEmployee.foodServices, data: data)
+        
+        // Grabs the first pass
+        let testPass = passes.getPass(atIndex: 0)
+        
+        // For all hourly employees, all but management tier is required
+        requiredInfoTest(for: HourlyEmployee.foodServices)
+        
+        // Tests Access for various areas
+        accessTest(for: testPass)
+        
+        // Birthday Test - Modifies dob of testPass
+        // Testing showing of birthday message for kitchen access
+        passes.updateEntrantInfo(testPass, key: PersonalData.dob.rawValue, with: today.toString())
+        print(cardSwiper.swipe(testPass, for: .food(testPass.foodDiscount)))
+        
+        // Birthday Test - Missing DOB
+        // This tests how the birthday message behaves if the dob does not exist
+        passes.removeEntrantInfo(testPass, key: PersonalData.dob.rawValue)
+        print(cardSwiper.swipe(testPass, for: .skipLine(testPass.skipAllowed)))
+    }
+    
+    // MARK: Hourly Ride Test
+    func hourlyEmployeeRideServicesTest() {
+        
+        // Sets up test and creates a pass with all fields populated
+        // Note that the first pass CANNOT raise an errors due to incompleteness
+        initialTestSetup()
+        passes.create(for: HourlyEmployee.rideServices, data: data)
+        
+        // Grabs the first pass
+        let testPass = passes.getPass(atIndex: 0)
+        
+        // For all hourly employees, all but management tier is required
+        requiredInfoTest(for: HourlyEmployee.rideServices)
+        
+        // Tests Access for various areas
+        accessTest(for: testPass)
+        
+        // Birthday Test - Modifies dob of testPass
+        // Testing showing of birthday message for kitchen access
+        passes.updateEntrantInfo(testPass, key: PersonalData.dob.rawValue, with: today.toString())
+        print(cardSwiper.swipe(testPass, for: .merchandise(testPass.merchandiseDiscount)))
+        
+        // Birthday Test - Missing DOB
+        // This tests how the birthday message behaves if the dob does not exist
+        passes.removeEntrantInfo(testPass, key: PersonalData.dob.rawValue)
+        print(cardSwiper.swipe(testPass, for: .amusement))
+    }
+    
+    // MARK: Hourly Maintenance Test
+    func hourlyEmployeeMaintenanceTest() {
+        
+        // Sets up test and creates a pass with all fields populated
+        // Note that the first pass CANNOT raise an errors due to incompleteness
+        initialTestSetup()
+        passes.create(for: HourlyEmployee.maintenance, data: data)
+        
+        // Grabs the first pass
+        let testPass = passes.getPass(atIndex: 0)
+        
+        // For all hourly employees, all but management tier is required
+        requiredInfoTest(for: HourlyEmployee.maintenance)
+        
+        // Tests Access for various areas
+        accessTest(for: testPass)
+        
+        // Birthday test omitted. they are fully exhausted in above examples
+    }
+    
+    // MARK: Manager Test
+    func managerTest() {
+        
+        // Sets up test and creates a pass with all fields populated
+        // Note that the first pass CANNOT raise an errors due to incompleteness
+        initialTestSetup()
+        passes.create(for: Manager.manager, data: data)
+        
+        // Grabs the first pass
+        let testPass = passes.getPass(atIndex: 0)
+        
+        // All Fields are required for a manager
+        requiredInfoTest(for: Manager.manager)
+        
+        // Tests Access for various areas
+        accessTest(for: testPass)
+        
+        // Birthday test omitted. they are fully exhausted in above examples
     }
     
     
@@ -282,14 +428,12 @@ class ViewController: UIViewController {
         }
         
         // While the above timer is running, a series of adding two more Passes and then running four additonal swipes that will not trigger the double swipe is run
-        passes.create(for: Guest.child(birthday: SimpleDate(year: 1999, month: 11, day: 13)), data: data)
-        passes.create(for: Manager.manager, data: data)
+        passes.create(for: Guest.classic, data: data)       // Index is 1
+        passes.create(for: Manager.manager, data: data)     // Index is 2
         print(cardSwiper.swipe(passes.getPass(atIndex: 0), for: .food(passes.getPass(atIndex: 0).foodDiscount)))
         print(cardSwiper.swipe(passes.getPass(atIndex: 2), for: .office))
         print(cardSwiper.swipe(passes.getPass(atIndex: 2), for: .office))
         print(cardSwiper.swipe(passes.getPass(atIndex: 1), for: .office))
-        
-        
     }
 }
 

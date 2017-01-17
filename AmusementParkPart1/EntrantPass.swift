@@ -8,13 +8,17 @@
 
 import Foundation
 
-struct EntrantPass: Pass, AgeVerifiable {
+class EntrantPass: Pass, AgeVerifiable {
     let entrant: Entrant
     let passId: Int
     var entrantInformation: [String: String]
-}
 
-extension EntrantPass {
+    init(entrant: Entrant, passId: Int, entrantInformation: [String: String]) {
+        self.entrant = entrant
+        self.passId = passId
+        self.entrantInformation = entrantInformation
+    }
+
     var foodDiscount: Int {
         return entrant.foodDiscount
     }
@@ -40,12 +44,14 @@ extension EntrantPass {
     }
     
     var isAgeValid: Bool {
-        // No reason to do anything if the entrant is not a guest who needs age checked
+        // Do nothing if the entrant does not need age checked
         if entrant is AgeVerifiable && entrant is Guest {
             switch entrant as! Guest {
-            case .child(birthday: let date):
+            case .child:
             do {
-                return try isValidChild(for: date)
+                if let dob = entrantInformation["dob"] {
+                    return try isValidChild(for: dob)
+                }
             } catch Errors.InvalidChildAge(message: let message) {
                 print(message)
             } catch let error {

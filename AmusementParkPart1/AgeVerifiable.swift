@@ -11,8 +11,7 @@ import Foundation
 
 protocol AgeVerifiable {
     var today: SimpleDate { get }
-    var dateFormatter: DateFormatter { get }
-    func isValidChild(for date: SimpleDate) throws -> Bool
+    func isValidChild(for dateString: String) throws -> Bool
 }
 
 extension AgeVerifiable {
@@ -30,24 +29,18 @@ extension AgeVerifiable {
         return SimpleDate(year: currentYear, month: currentMonth, day: currentDay)
     }
     
-    var dateFormatter: DateFormatter {
-        // sets up the dateFormatter with date requirement
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM-dd-yyyy"
-        return formatter
-    }
-    
-    func isValidChild(for date: SimpleDate) throws -> Bool {
+    func isValidChild(for dateString: String) throws -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MM-dd-yyyy"
+        
         let childDate = SimpleDate(year: today.year - 5, month: today.month, day: today.day)
         let maximumAllowedDate = dateFormatter.date(from: childDate.toString())
+        let birthDate = dateFormatter.date(from: dateString)
         
-        guard let birthday = dateFormatter.date(from: date.toString()) else {
-            throw Errors.InvalidDateFormat(message: "Please enter date in the following format: \"MM-dd-yyyy\"")
-        }
         
-        // This normally shouldn't throw an error in real life, but since the project description asks to throw an error.. here it is!
-        guard let testDate = maximumAllowedDate, testDate.timeIntervalSince(birthday) > 0 else {
-            throw Errors.InvalidChildAge(message: "Child's age is greater than 5 years old.  Please double check the age or use the classic guest tab")
+        // throws an error if age requirement is not met
+        guard let testDate = maximumAllowedDate, let birthday = birthDate, testDate.timeIntervalSince(birthday) < 0 else {
+            throw Errors.InvalidChildAge(message: "Child's age is greater than or equal to FIVE.  Please double check the age, or use classic guest form")
         }
         
         // if both of the above guard statements pass, then the age must be valid

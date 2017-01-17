@@ -11,7 +11,7 @@ import Foundation
 protocol SwipeCard {
     func swipe(_ pass: Pass, for area: Area) -> String
     func swipe(_ pass: Pass, for discount: Discount) -> String
-    mutating func swipe(_ pass: Pass, for rideAccess: RideAccess) -> String
+    mutating func swipe(_ pass: Pass, for rideAccess: RideAccess, testAccess: Bool) -> String
     func playSound(for sound: AccessSound)
     func processBirthday(for pass: Pass)
 }

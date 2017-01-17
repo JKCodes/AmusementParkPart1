@@ -11,6 +11,6 @@ import Foundation
 protocol Pass: Entrant {
     var entrant: Entrant { get }
     var passId: Int { get }
-    var entrantInformation: [String: String] { get }
+    var entrantInformation: [String: String] { get set }
     func canAccess(area: Area) -> Bool
 }

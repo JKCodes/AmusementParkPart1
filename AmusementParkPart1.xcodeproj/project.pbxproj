@@ -34,6 +34,7 @@
 		D82624281E21E9200047C866 /* SwipeCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82624271E21E9200047C866 /* SwipeCard.swift */; };
 		D826242A1E21EA260047C866 /* CardSwiper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D82624291E21EA260047C866 /* CardSwiper.swift */; };
 		D85A6EA61E2E616D00EC6737 /* ManagerTier.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85A6EA51E2E616D00EC6737 /* ManagerTier.swift */; };
+		D85A6EAA1E2EAB8100EC6737 /* DateFormat.swift in Sources */ = {isa = PBXBuildFile; fileRef = D85A6EA91E2EAB8100EC6737 /* DateFormat.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -87,6 +88,7 @@
 		D82624271E21E9200047C866 /* SwipeCard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwipeCard.swift; path = ../SwipeCard.swift; sourceTree = "<group>"; };
 		D82624291E21EA260047C866 /* CardSwiper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardSwiper.swift; sourceTree = "<group>"; };
 		D85A6EA51E2E616D00EC6737 /* ManagerTier.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ManagerTier.swift; sourceTree = "<group>"; };
+		D85A6EA91E2EAB8100EC6737 /* DateFormat.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateFormat.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -228,6 +230,7 @@
 			children = (
 				D826240B1E1FFCBC0047C866 /* SimpleDate.swift */,
 				D82624201E21D3540047C866 /* AccessSound.swift */,
+				D85A6EA91E2EAB8100EC6737 /* DateFormat.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				D82623C61E1FD4030047C866 /* AppDelegate.swift in Sources */,
 				D826240E1E1FFFBA0047C866 /* PersonalData.swift in Sources */,
 				D826241C1E21C3F30047C866 /* EntrantPass.swift in Sources */,
+				D85A6EAA1E2EAB8100EC6737 /* DateFormat.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

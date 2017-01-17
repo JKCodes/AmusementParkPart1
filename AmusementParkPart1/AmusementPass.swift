@@ -14,17 +14,35 @@ class AmusementPass {
     static var currentId = 1
     static var passes: [Pass] = []
     
-    public func create(for entrant: Entrant, data: [String: String] = [:]) {
+    public func create(for entrant: Entrant, data: [String: String] = [:], testMode: Bool = false) {
         let informationData = parseData(entrant: entrant, data: data)
         let pass = EntrantPass(entrant: entrant, passId: AmusementPass.currentId, entrantInformation: informationData)
         
-        // Checks if age is valid next
-        let _ = pass.isAgeValid
-        
+        // Checks if age is valid next if testMode is false
+        if !testMode {
+            let valid = pass.isAgeValid
+            if valid {
+                print("This pass is eligible for a child pass")
+            }
+        }
         // All tests passed, append pass and increment counter by 1
         AmusementPass.passes.append(pass)
         AmusementPass.currentId += 1
-        print(AmusementPass.currentId)
+    }
+    
+    public func updateEntrantInfo(_ pass: Pass, key: String, with value: String) {
+        // Updates the key with the specified value
+        // Adds the key/value if the pair does not already exist
+        var pass = pass
+        pass.entrantInformation[key] = value
+        AmusementPass.passes[pass.passId] = pass
+    }
+    
+    public func removeEntrantInfo(_ pass: Pass, key: String) {
+        // Removes the specified key
+        var pass = pass
+        pass.entrantInformation[key] = nil
+        AmusementPass.passes[pass.passId] = pass
     }
     
     public func getPass(atIndex index: Int) -> Pass {
@@ -49,21 +67,48 @@ class AmusementPass {
     }
     
     private func parseData(entrant: Entrant, data: [String:String]) -> [String: String] {
-        var informationArray: [String: String] = [:]
+        // right now, if an invalid data is detected, returned array is set to ["error": "true"], but nothing happens
+        // for project 5, the error key will be used to ask the user to input the data again
         
-        // checks for presence of all required fields, if found, populates the
+        var informationArray: [String: String] = data
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = DateFormat.dateFormat.rawValue
+        
+        // checks for presence of all required fields. Populates informationArray as needed
         do {
             for property in entrant.requiredInformation {
-                if let test = data[property.rawValue] {
-                    informationArray[property.rawValue] = test
-                } else {
+                guard let _ = data[property.rawValue] else {
                     throw Errors.IncompleteInformation(message: "Incomplete Information: \(property) is missing")
                 }
             }
         } catch Errors.IncompleteInformation(message: let message) {
+            informationArray = ["error":"true"]
             print(message)
         } catch let error {
             fatalError("\(error)")
+        }
+        
+        // checks for invalid date format, if date of birth provided
+        
+        do {
+            for field in informationArray {
+                if field.key == "dob" {
+                    guard let _ = dateFormatter.date(from: field.value) else {
+                        throw Errors.InvalidDateFormat(message: "Please enter date in the following format: \"MM-dd-yyyy\"")
+                    }
+                }
+            }
+        } catch Errors.InvalidDateFormat(message: let message) {
+            informationArray = ["error":"true"]
+            print(message)
+        } catch let error {
+            fatalError("\(error)")
+        }
+        
+        // Removes the unnecessary managementTier info if not a manager
+        if !(entrant is Manager) {
+            informationArray.removeValue(forKey: PersonalData.managementTier.rawValue)
         }
         
         return informationArray
