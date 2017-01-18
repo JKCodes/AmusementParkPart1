@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+// For verifying age.  Right now, only child pass utilize this
 protocol AgeVerifiable {
     var today: SimpleDate { get }
     func isValidChild(for dateString: String) throws -> Bool

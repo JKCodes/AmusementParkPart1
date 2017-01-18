@@ -8,6 +8,7 @@
 
 import Foundation
 
+// DateFormat enum for string to date conversion
 enum DateFormat: String {
     case dateFormat = "MM-dd-yyyy"
 }

@@ -8,6 +8,9 @@
 
 import Foundation
 
+// Different Errors used in the program
+// Some are really here for extreme conditions
+// PassIndexOutOfRange and SoundNotFound should really never happen if programmed correctly
 enum Errors: Error {
     case InvalidDateFormat(message: String)
     case IncompleteInformation(message: String)

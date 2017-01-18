@@ -9,7 +9,7 @@
 import Foundation
 
 
-/// This is a very simplied version of Date
+/// This is a very simplied version of Date. Mainly exists for MY sanity
 struct SimpleDate {
     let year: Int
     let month: Int

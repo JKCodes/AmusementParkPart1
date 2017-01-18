@@ -8,9 +8,16 @@
 
 import Foundation
 
+
+// Contains information about individual passes
 class EntrantPass: Pass, AgeVerifiable {
     let entrant: Entrant
+    
+    // passId is a unique id number
     let passId: Int
+    
+    // entrantInformation is entrant's personal information.
+    // This could be blank for some entrants
     var entrantInformation: [String: String]
 
     init(entrant: Entrant, passId: Int, entrantInformation: [String: String]) {
@@ -46,6 +53,8 @@ class EntrantPass: Pass, AgeVerifiable {
     var isAgeValid: Bool {
         // Do nothing if the entrant does not need age checked
         if entrant is AgeVerifiable && entrant is Guest {
+            // technically, at current state, only child guest should be matched
+            // but for project 5, i decided to 'switch' anyway
             switch entrant as! Guest {
             case .child:
             do {

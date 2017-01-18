@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Exists to reduce the occurrences of manual string input errors
 enum PersonalData: String {
     case firstName
     case lastName

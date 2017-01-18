@@ -18,6 +18,7 @@ enum HourlyEmployee: Entrant {
     case maintenance
 }
 
+// Each entrant has its own set of privileges and required information
 extension HourlyEmployee {
     var areaAccess: [Area] {
         switch self {

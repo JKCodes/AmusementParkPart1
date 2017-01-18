@@ -8,6 +8,8 @@
 
 import Foundation
 
+// enum of ride access options
+// uses associated values to set discount per entrant type
 enum RideAccess{
     case allRides(Bool)
     case skipLine(Bool)

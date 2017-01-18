@@ -8,7 +8,8 @@
 
 import Foundation
 
-
+// enum of discount types
+// uses associated values to set discount per entrant type
 enum Discount {
     case food(Int)
     case merchandise(Int)

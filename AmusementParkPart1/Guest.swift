@@ -18,6 +18,7 @@ enum Guest: Entrant, AgeVerifiable {
     case child
 }
 
+// Each entrant has its own set of privileges and required information
 extension Guest {
     
     var areaAccess: [Area] {
@@ -47,7 +48,7 @@ extension Guest {
         }
     }
     
-    // Only child gues is required to provide any information
+    // Of the three quest types, only child guest is required to provide a dob information
     var requiredInformation: [PersonalData] {
         switch self {
         case .child: return [.dob]

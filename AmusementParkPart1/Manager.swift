@@ -16,6 +16,7 @@ enum Manager: Entrant {
     case manager
 }
 
+// Each entrant has its own set of privileges and required information
 extension Manager {
     var areaAccess: [Area] {
         // using switch here even though there are only one possible choice

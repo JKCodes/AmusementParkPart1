@@ -9,6 +9,7 @@
 import Foundation
 
 protocol SwipeCard {
+    // swipe methods for three different types
     func swipe(_ pass: Pass, for area: Area) -> String
     func swipe(_ pass: Pass, for discount: Discount) -> String
     mutating func swipe(_ pass: Pass, for rideAccess: RideAccess, testAccess: Bool) -> String

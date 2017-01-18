@@ -11,7 +11,7 @@ import Foundation
 // A light-weight enum for Management Tiers
 
 
-// Exists to reduce the occurrences of string input errors
+// Exists to reduce the occurrences of manual string input errors
 enum ManagerTier: String {
     case shiftMgr
     case generalMgr

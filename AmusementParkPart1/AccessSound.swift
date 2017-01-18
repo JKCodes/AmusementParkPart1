@@ -16,6 +16,7 @@ enum AccessSound: String {
 }
 
 extension AccessSound {
+    // sets up sound for the specified name. Throws error if the file is deleted somehow
     static func playSound(for name: AccessSound) throws -> SystemSoundID {
         var soundId: SystemSoundID = 0
         guard let path = Bundle.main.path(forResource: name.rawValue, ofType: "wav") else {

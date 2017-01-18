@@ -8,6 +8,7 @@
 
 import Foundation
 
+// EntrantPass.swift utilizes this protocol
 protocol Pass: Entrant {
     var entrant: Entrant { get }
     var passId: Int { get }

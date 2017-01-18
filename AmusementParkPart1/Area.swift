@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Enum of five access locations
 enum Area: String {
     case amusement
     case kitchen

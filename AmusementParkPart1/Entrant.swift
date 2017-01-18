@@ -8,6 +8,7 @@
 
 import Foundation
 
+// All Entrants must have these properties
 protocol Entrant {
     var areaAccess: [Area] { get }
     var allRides: Bool { get }

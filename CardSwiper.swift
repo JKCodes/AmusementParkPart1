@@ -9,6 +9,7 @@
 import Foundation
 import AudioToolbox
 
+// The heart of the card swiper
 struct CardSwiper: SwipeCard {
     var lastId = 0
     var lastTime: TimeInterval = 0
@@ -17,15 +18,19 @@ struct CardSwiper: SwipeCard {
 }
 
 extension CardSwiper {
+    
+    // resets lastId and lastTime to zero.  this is used mainly for testing purposes
     mutating func reset() {
         lastId = 0
         lastTime = 0
     }
     
+    //  For area access
     func swipe(_ pass: Pass, for area: Area) -> String {
         processBirthday(for: pass)
         let success = pass.canAccess(area: area)
         var snippet = ""
+        
         switch area {
         case .amusement: snippet = "amusement park"
         case .kitchen: snippet = "kitchen"
@@ -33,10 +38,13 @@ extension CardSwiper {
         case .maintenance: snippet = "maintenance"
         case .office: snippet = "office"
         }
+        
+        // If success is true, that means that access is granted
         playSound(for: success ? AccessSound.granted : AccessSound.denied)
         return success ? "This pass has access to \(snippet)" : "This pass does not have access to \(snippet)"
     }
     
+    // For Discount eligibility
     func swipe(_ pass: Pass, for discount: Discount) -> String {
         processBirthday(for: pass)
         var discountType = ""
@@ -50,6 +58,8 @@ extension CardSwiper {
             discountType = "merchandise"
             discountAmount = discount
         }
+        
+        // if discountAmount is 0, then there obviously isn't any discount
         playSound(for: discountAmount != 0 ? AccessSound.granted : AccessSound.denied)
         
         return discountAmount == 0 ? "This pass is not eligible for a \(discountType) discount" :
@@ -57,6 +67,8 @@ extension CardSwiper {
         
     }
     
+    // For Ride privileges
+    // This function also takes an optional argument called testAccess, which controls whether double swipe runs or not
     mutating func swipe(_ pass: Pass, for rideAccess: RideAccess, testAccess: Bool = false) -> String {
         
         var access = false
@@ -99,6 +111,7 @@ extension CardSwiper {
             return true
         }
         
+        // This checks if a person swipes a second time (hence lastId == id)
         if lastId == id {
 
             guard currentTime - waitTimeNeeded > lastTime else {
@@ -135,7 +148,7 @@ extension CardSwiper {
     }
     
     private func extractBirthday(for pass: Pass) -> SimpleDate? {
-        // Extract birthday from information
+        // Extracts birthday from information from the provided pass
         var complexDate = Date()
         guard let dob = pass.entrantInformation[PersonalData.dob.rawValue] else {
             return nil
@@ -148,6 +161,7 @@ extension CardSwiper {
             complexDate = tempDate
         }
         
+        // returns a SimpleDate object with the new year, month, and day components
         return SimpleDate(year: NSCalendar.current.component(.year, from: complexDate),
                           month: NSCalendar.current.component(.month, from: complexDate),
                           day: NSCalendar.current.component(.day, from: complexDate))
@@ -166,6 +180,7 @@ extension CardSwiper {
         return (currentMonth, currentDay) == (date.month, date.day)
     }
     
+    // plays sound depending on success or failure
     func playSound(for sound: AccessSound) {
         do {
             let soundID = try AccessSound.playSound(for: sound)
